@@ -1,0 +1,51 @@
+services:
+    redis_tag_all:
+        container_name:
+            redis_tag_all
+        image:
+            redis:7-alpine
+        ports:
+            - "127.0.0.1:6371:${REDIS_PORT}"
+        restart:
+            unless-stopped
+        volumes:
+            - redis-tag_all:/var/lib/redis/data
+        env_file:
+            -   path: .env
+                required: true
+        healthcheck:
+            test: [ "CMD-SHELL", "redis-cli PING | grep PONG" ]
+            interval: 10s
+            timeout: 10s
+            retries: 10
+            start_period: 10s
+        deploy:
+            resources:
+                limits:
+                    cpus: "0.5"
+                    memory: 500M
+    bot_tag_all:
+        container_name:
+            bot_tag_all
+        build:
+            context:
+                .
+            dockerfile:
+                Dockerfile
+        restart:
+            unless-stopped
+        depends_on:
+            - redis_tag_all
+        develop:
+            watch:
+                -   action: sync+restart
+                    path: src
+                    target: /app/src
+        deploy:
+            resources:
+                limits:
+                    cpus: "1"
+                    memory: 1000M
+
+volumes:
+    redis-tag_all:

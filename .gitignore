@@ -1,0 +1,11 @@
+# Python
+venv
+__pycache__
+
+# IDEs
+.idea
+.vscode
+
+.env
+sessions/**
+!sessions/.gitkeep

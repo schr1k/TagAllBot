@@ -1,0 +1,20 @@
+# Python
+venv
+__pycache__
+
+# IDEs
+.idea
+.vscode
+
+# Docker
+Dockerfile
+compose.yaml
+.dockerignore
+
+# Git
+.git
+.github
+.gitignore
+README.md
+
+.env.example
