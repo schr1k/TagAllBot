@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
+from telethon.tl.types import PeerChannel, PeerChat
 
 from src.bot import client
 
@@ -13,7 +14,13 @@ async def mention_all(message: Message):
     members = []
 
     async with client:
-        async for user in client.iter_participants(chat_id):
+        await client.get_dialogs()
+        if str(chat_id).startswith('-100'):
+            entity = await client.get_entity(PeerChannel(chat_id))
+        else:
+            entity = await client.get_entity(PeerChat(abs(chat_id)))
+
+        async for user in client.iter_participants(entity):
             if not user.bot:
                 if user.username:
                     members.append(f'@{user.username}')
