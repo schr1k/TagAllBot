@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     API_ID: str
     API_HASH: str
     PHONE: str
-    PASSWORD: str
+    PASSWORD: str | None = None
 
     # Redis
     REDIS_HOST: str

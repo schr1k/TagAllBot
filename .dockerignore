@@ -16,5 +16,7 @@ compose.yaml
 .github
 .gitignore
 README.md
+LICENSE.md
+CODE_OF_CONDUCT.md
 
 .env.example

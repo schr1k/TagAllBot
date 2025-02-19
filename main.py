@@ -9,7 +9,10 @@ dp.include_router(router)
 
 
 async def main():
-    await client.start(phone=settings.PHONE, password=settings.PASSWORD)
+    if settings.PASSWORD is None:
+        await client.start(phone=settings.PHONE)
+    else:
+        await client.start(phone=settings.PHONE, password=settings.PASSWORD)
     await dp.start_polling(bot)
 
 
