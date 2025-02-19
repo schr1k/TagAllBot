@@ -1,0 +1,36 @@
+name: Lint and Check
+
+on:
+    workflow_dispatch:
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    lint:
+        name: Run Linters and Checks
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout repository
+                uses: actions/checkout@v4
+
+            -   name: Set up Python
+                uses: actions/setup-python@v5
+                with:
+                    python-version: '3.13'
+
+            -   name: Install dependencies
+                run: |
+                    python -m pip install --upgrade pip
+                    pip install flake8 black mypy
+                    pip install -r requirements.txt
+
+            -   name: Run Flake8 (linter)
+                run: flake8 .
+
+            -   name: Run Black (formatter check)
+                run: black --check .
+
+            -   name: Run MyPy (type checker)
+                run: mypy .
